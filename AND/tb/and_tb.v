@@ -8,7 +8,7 @@ localparam WIDTH = 5;
 reg  clk; 
 reg  [WIDTH-1:0] a;
 reg  [WIDTH-1:0] b;
-wire [WIDTH:0]   z;
+wire [WIDTH-1:0] z;
 integer i;
 
 AND #(
