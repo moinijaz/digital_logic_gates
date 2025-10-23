@@ -1,0 +1,42 @@
+name: SystemVerilog CI
+
+# Controls when the workflow is triggered
+on: 
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  
+# A workflow is made up of one or more jobs
+jobs:
+  simulate_gates:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Step 1: Checks out your repository code under $GITHUB_WORKSPACE
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install Icarus Verilog and other dependencies
+      - name: Install Icarus Verilog and dependencies
+        run: |
+          sudo apt-get update
+          # iverilog is the compiler/simulator
+          sudo apt-get install -y iverilog
+
+      # Step 3: Compile your SystemVerilog code with the testbench
+      # Replace 'your_design.sv' and 'your_testbench.sv' with your actual file names.
+      - name: Compile SystemVerilog
+        run: |
+          # The -g2012 flag enables SystemVerilog features (IEEE 1800-2012)
+          # The -o flag specifies the output file (the compiled simulation executable)
+          iverilog -g2012 -o and_gate ../../AND/rtl/and.v ../../AND/tb/and_tb.v
+
+      # Step 4: Run the simulation
+      - name: Run Simulation
+        run: |
+          # The 'vvp' command runs the compiled simulation executable
+          # If the testbench passes (e.g., $finish is reached without errors/asserts failing), the step succeeds.
+          vvp and_gate
