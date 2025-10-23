@@ -1,5 +1,5 @@
 module NOT #(
-    WIDTH = 10
+    parameter WIDTH = 10
 )(
     input wire  [WIDTH-1:0] a,
     output wire [WIDTH-1:0] z

@@ -1,5 +1,5 @@
 module NAND #(
-    WIDTH = 10
+    parameter WIDTH = 10
 )(
     input wire  [WIDTH-1:0] a,
     input wire  [WIDTH-1:0] b,
